@@ -1,0 +1,17 @@
+#containerGraph {
+  position: relative;
+  width: 75vh;
+  padding: 10vh;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+#containerWeather {
+  position: relative;
+  display: inline;
+}
+
+#containerWeather h1 {
+  position: relative;
+  display: inline;
+}
