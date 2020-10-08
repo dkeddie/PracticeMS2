@@ -21,12 +21,27 @@
     <div id="containerWeather">
       <h1>Location: </h1>
 
-      <input type="text" name="Location" id="location">
-      <button id="button">Load loadation</button>
+      <input type="text" name="Location" id="City">
+      <br><br>
+      <!-- <button onclick="document.getElementById('month').innerHTML = 'January'" id="btn Jan">January</button> -->
+      <label>
+        <input type="radio" name="month" value="Jan">January
+      </label>
+      <label>
+        <input type="radio" name="month" value="Feb">February
+      </label>
+      <br><br>
+      <div id="tempBlock">
+        <h1 id="month">Month</h1>
+        <h1><span id="tempC">0</span>degC</h1>
+      </div>
       <div id="coordinates"></div>
       <br><br><br>
       <button id="button1" name="Weather">Weather Load</button>
       <div id="weather"></div>
+      <br><br><br>
+      <div id="monthCurrent">Nov</div>
+      <div id="flightPrice"></div>
 
     </div>
 
@@ -35,7 +50,7 @@
   </section>
 
 
-
-<script src="assets/js/weatherChart.js"></script>
+  <script src="assets/js/flights.js"></script>
+  <!-- <script src="assets/js/weatherChart.js"></script> -->
 </body>
 </html>

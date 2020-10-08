@@ -1,167 +1,108 @@
-// var ctx = document.getElementById('myChart').getContext('2d');
-// var chart = new Chart(ctx, {
-//   // The type of chart we want to create
-//   type: 'line',
 
-//   // The data for our dataset
-//   data: {
-//     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-//     datasets: [{
-//       label: 'My First dataset',
-//       backgroundColor: 'rgb(255, 99, 132)',
-//       borderColor: 'rgb(255, 99, 132)',
-//       data: [0, 10, 5, 2, 20, 30, 45]
-//     }]
-//   },
+// document.getElementById('btn *').addEventListener('click', () => {
 
-//   // Configuration options go here
-//   options: {}
 // });
 
-
-
-// DETERMINE LOCATION
-
-async function displayWeather() {
-  let coordinates = await getCoordinates();
-  console.log(coordinates);
-}
-
-displayWeather();
-
-var weather;
-
-var outputLat;
-var outputLng;
-var coordinates = {};
-// var location = "london"
-// var location = london;
-
-function getCoordinates() {
-  var xhr = new XMLHttpRequest;
-  // var location = document.getElementById("location").value;
-  urlAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+"London"+"&key=AIzaSyBKd5I7u1oc_iX8wrBze-LNNmiHFPqdtCI"
-
-  // console.log(location)
-  // console.log(urlAPI)
-
-  xhr.open("GET", urlAPI , true);
-  xhr.send();
-
-  xhr.onload = function () {
-    if (this.status == 200) {
-      var data = JSON.parse(this.responseText)
-      coordinates = data.results[0].geometry.location
-      // outputLat = getCoordinates.results[0].geometry.location.lat;
-      // outputLat = getCoordinates.results[0].geometry.location.lng;
-      // coordinates = data;
-      console.log(coordinates);
-    };
-    // return getCoordinates.results[0].geometry.location;
-    // console.log(coordinates);
-    return coordinates;
-      console.log(coordinates);
-  };
-
-  
-  // return getCoordinates.results[0].geometry.location;
-}
-
-// const output = getCoordinates('London');
-getCoordinates();
-console.log(coordinates);
-
-// getCoordinates();
-// console.log(coordinates);
-
-// function getData(data) {
-
+let inputs = document.getElementsByTagName('input');
+console.log(inputs)
+// for (let input of inputs) {
+//   alert(input.checked)
 // }
 
-// var outputLat;
-// var outputLng;
 
-// document.getElementById('button').addEventListener('click', loadCoordinates)
-
-// function loadCoordinates() {
-//   var xhr = new XMLHttpRequest;
-//   var location = document.getElementById("location").value;
-//   urlAPI = "https://maps.googleapis.com/maps/api/geocode/json?address="+location+"&key=AIzaSyBKd5I7u1oc_iX8wrBze-LNNmiHFPqdtCI"
-
-//   console.log(location)
-//   console.log(urlAPI)
-
-//   xhr.open("GET", urlAPI , true);
-//   xhr.send();
-
-//   xhr.onload = function () {
-//     if (this.status == 200) {
-//       var coordinates = JSON.parse(this.responseText);
-//       console.log(coordinates.results[0].formatted_address)
-
-//       outputLat = coordinates.results[0].geometry.location.lat;
-//       outputLng = coordinates.results[0].geometry.location.lng;
-//       // outputLat += '<p>Latitude: ' + coordinates.results[0].geometry.location.lat + '</p>';
-//       // outputLng += '<p>Longitude:' + coordinates.results[0].geometry.location.lng + '</p>';
-
-//       document.getElementById('coordinates').innerHTML = outputLat + outputLng;
-
-//     }
+// function showTemp() {
+//   if document.getElementById()
 //   }
 // }
 
+document.getElementById("City").addEventListener('keydown', function(e) {
+  if (e.keyCode === 13) {
+    graphData();
+  }
+})
+
+// DETERMINE LOCATION
+
+const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+const key = '&key=AIzaSyBKd5I7u1oc_iX8wrBze-LNNmiHFPqdtCI';
+
+
+let lat = 0
+let lng = 0
+let address = 0
+let place = 0
+
+async function getData() {
+  address = await document.getElementById('City').value;
+  console.log(address)
+  const response = await fetch(`${url}${address}${key}`);
+  const locationData = await response.json();
+  console.log(locationData)
+  lat = locationData.results[0].geometry.location.lat
+  lng = locationData.results[0].geometry.location.lng
+  place = locationData.results[0].formatted_address
+  console.log(place)
+};
+
 // Weather DATA Import
 
-// console.log(outputLat);
-// console.log(outputLng);
 
-// // document.getElementById('button1').addEventListener('click', getStation)
+let weatherData = []
+let weatherDataMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+let weatherDataTemps = []
 
-// var station;
+let urlWeather = 0
 
-// // function loadWeather() {
-  
-//   function getStation() {
-//     if(outputLat) {
-//     var xhr = new XMLHttpRequest();
-//     urlWeather = "https://api.meteostat.net/v2/stations/nearby?lat=" + outputLat + "&lon=" + outputLng + "&limit=3"
+async function getWeather() {
+  // const coordinates = await getData
+    urlWeather = `https://api.meteostat.net/v2/point/climate?lat=${lat}&lon=${lng}`
+    console.log(urlWeather)
+  const response = await fetch(urlWeather, {
+    method: 'GET',
+    credentials: 'omit',
+    headers: {
+      // 'Content-Type': 'application/json',
+      // 'x-api-key': 'RMs9pME8PJQpNfti54tiw4fJQOquTm71',
+    },
+  })
+  const data1 = await response.json()
+  console.log(data1)
+  weatherData = data1.data
+  // weatherDataMonths = weatherData.map((months, index) => {
+  //   return weatherData[index].month;
+  // })
+  weatherDataTemps = weatherData.map((months, index) => {
+    return weatherData[index].tavg;
+  })
+};
 
-//     xhr.open("GET", urlWeather);
-//     xhr.withCredentials = false;
-//     xhr.setRequestHeader("x-api-key", "RMs9pME8PJQpNfti54tiw4fJQOquTm71");
-//     xhr.send();
+async function graphData() {
+  // let lat = 0
+  // let lng = 0
+  // let weatherData = []
+  const stepOne = await getData()
+  const stepTwo = await getWeather()
+  console.log(weatherData[0].tavg)
+  var ctx = await document.getElementById('myChart').getContext('2d');
+  var chart = await new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
 
-//     xhr.onload = function () {
-//       if (this.status == 200) {
-//         stations = JSON.parse(this.responseText);
-//         station = stations.data[0].id;
-//       }
-//     };
-//   };
-// }
+    // The data for our dataset
+    data: {
+      labels: weatherDataMonths,
+      datasets: [{
+        label: 'My First dataset',
+        backgroundColor: 'rgb(255, 99, 45)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: weatherDataTemps
+      }]
+    },
 
 
-//   console.log(station);
+    // Configuration options go here
+    options: {}
+  });
+}
 
-
-//   function loadData() {
-//     if (station) {
-//     var xhr = new XMLHttpRequest();
-//     urlStation = "https://api.meteostat.net/v2/stations/climate?station="+station
-
-//     xhr.open("GET", urlStation);
-//     xhr.withCredentials = false;
-//     xhr.setRequestHeader("x-api-key", "RMs9pME8PJQpNfti54tiw4fJQOquTm71");
-//     xhr.send();
-
-//     xhr.onload = function () {
-//       if (this.status == 200) {
-//         var weather = JSON.parse(this.responseText);
-//         console.log(weather)
-//       }
-//     };
-//   };
-// }
-
-// console.log(weather)
-
+// graphData();
